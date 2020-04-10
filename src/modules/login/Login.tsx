@@ -6,17 +6,32 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
-  Button,
   Grid,
   makeStyles,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Alert from "@material-ui/lab/Alert";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import ButtonProcess from "../../components/ButtonProcess";
 
 type FormData = {
   email: string;
   password: string;
   remember: boolean;
+};
+
+type UserData = {
+  id: string;
+  picture: string;
+  age: number;
+  name: {
+    first: string;
+    last: string;
+  };
+  email: string;
+  phone: string;
+  address: string;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -31,14 +46,31 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  alert: {
+    width: "100%",
+    marginTop: theme.spacing(2),
+  },
 }));
 
-function Login() {
+const Login = () => {
   const { register, handleSubmit, errors, formState } = useForm<FormData>({
     mode: "onChange",
   });
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [showAlert, setShowAlert] = React.useState<boolean>(false);
+
+  const onSubmit = handleSubmit((formData) => {
+    setLoading(true);
+    setShowAlert(false);
+    axios.get<UserData[]>(`/mocks/login.json`).then(({ data }) => {
+      const user = data.find((user) => user.email === formData.email);
+      console.log(user);
+      if (!user) {
+        setShowAlert(true);
+      }
+      setLoading(false);
+    });
   });
 
   const classes = useStyles();
@@ -85,7 +117,15 @@ function Login() {
           name="remember"
           inputRef={register}
         />
-        <Button
+        {showAlert && (
+          <div className={classes.alert}>
+            <Alert variant="outlined" severity="error">
+              Email or password incorrect
+            </Alert>
+          </div>
+        )}
+        <ButtonProcess
+          animate={loading}
           type="submit"
           fullWidth
           variant="contained"
@@ -94,7 +134,7 @@ function Login() {
           disabled={!formState.isValid}
         >
           Sign In
-        </Button>
+        </ButtonProcess>
         <Grid container>
           <Grid item xs>
             <Link href="#" variant="body2">
@@ -110,6 +150,6 @@ function Login() {
       </form>
     </React.Fragment>
   );
-}
+};
 
 export default Login;
