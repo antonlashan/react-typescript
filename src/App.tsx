@@ -1,64 +1,46 @@
 import React, { Suspense } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import "./App.css";
-import { Header } from "./layouts/Header";
-import {
-  CssBaseline,
-  makeStyles,
-  Theme,
-  createStyles,
-} from "@material-ui/core";
-import { AppDrawer } from "./layouts/Drawer";
+import AuthenticatedLayout from "./layouts/AuthenticatedLayout";
+import LoginLayout from "./layouts/LoginLayout";
 
-const Home = React.lazy(() => import("./modules/home/Home"));
-const About = React.lazy(() => import("./modules/about/About"));
+import Login from "./modules/login/Login";
+import Home from "./modules/home/Home";
+import About from "./modules/about/About";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      display: "flex",
-    },
-    toolbar: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "flex-end",
-      padding: theme.spacing(0, 1),
-      // necessary for content to be below app bar
-      ...theme.mixins.toolbar,
-    },
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing(3),
-    },
-  })
-);
+// const Home = React.lazy(() => import("./modules/home/Home"));
+// const About = React.lazy(() => import("./modules/about/About"));
+// const Login = React.lazy(() => import("./modules/login/Login"));
 
 function App() {
-  const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <Router>
-        <Header />
-        <AppDrawer />
+    <Router>
+      <Switch>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Route exact path={["/login"]}>
+            <LoginLayout>
+              <Switch>
+                <Route exact path="/login">
+                  <Login />
+                </Route>
+              </Switch>
+            </LoginLayout>
+          </Route>
+          <Route exact path={["/home", "/about"]}>
+            <AuthenticatedLayout>
+              <Switch>
+                <Route exact path="/home">
+                  <Home />
+                </Route>
 
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <Switch>
-            <Suspense fallback={<div>Loading...</div>}>
-              {/* <section> */}
-              <Route exact path="/">
-                <Home />
-              </Route>
-              <Route path="/about">
-                <About />
-              </Route>
-              {/* </section> */}
-            </Suspense>
-          </Switch>
-        </main>
-      </Router>
-    </div>
+                <Route exact path="/about">
+                  <About />
+                </Route>
+              </Switch>
+            </AuthenticatedLayout>
+          </Route>
+        </Suspense>
+      </Switch>
+    </Router>
   );
 }
 

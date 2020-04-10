@@ -59,12 +59,21 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export function AppDrawer() {
+export function AppDrawer(props: {
+  open: boolean;
+  onOpen: (o: boolean) => void;
+}) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  // const {open, onOpen} = props;
+  const [open, setOpen] = React.useState(props.open);
+
+  React.useEffect(() => {
+    setOpen(props.open);
+  }, [props.open]);
 
   const handleDrawerClose = () => {
     setOpen(false);
+    props.onOpen(false);
   };
 
   return (
@@ -88,7 +97,7 @@ export function AppDrawer() {
       </div>
       <Divider />
       <List>
-        <ListItemLink to="/">
+        <ListItemLink to="/home">
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
@@ -99,6 +108,12 @@ export function AppDrawer() {
             <InboxIcon />
           </ListItemIcon>
           <ListItemText primary="About" />
+        </ListItemLink>
+        <ListItemLink to="/login">
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
+          <ListItemText primary="Login" />
         </ListItemLink>
       </List>
     </Drawer>

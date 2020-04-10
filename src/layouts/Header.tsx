@@ -35,13 +35,18 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export function Header() {
+export function Header(props: { open: boolean; onOpen: (o: boolean) => void }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
+    props.onOpen(true);
   };
+
+  React.useEffect(() => {
+    setOpen(props.open);
+  }, [props.open]);
 
   return (
     <AppBar
@@ -54,7 +59,7 @@ export function Header() {
         <IconButton
           color="inherit"
           aria-label="open drawer"
-          onClick={handleDrawerOpen}
+          onClick={() => handleDrawerOpen()}
           edge="start"
           className={clsx(classes.menuButton, {
             [classes.hide]: open,
