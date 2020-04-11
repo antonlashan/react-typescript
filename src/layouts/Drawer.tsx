@@ -2,6 +2,9 @@ import React from "react";
 import clsx from "clsx";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
+import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
+import HomeIcon from "@material-ui/icons/Home";
+import InfoIcon from "@material-ui/icons/Info";
 import {
   Drawer,
   Divider,
@@ -11,7 +14,6 @@ import {
   ListItemText,
   ListItemProps,
 } from "@material-ui/core";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { Link, LinkProps } from "react-router-dom";
 
@@ -45,7 +47,7 @@ const useStyles = makeStyles((theme: Theme) =>
       overflowX: "hidden",
       width: theme.spacing(7) + 1,
       [theme.breakpoints.up("sm")]: {
-        width: theme.spacing(9) + 1,
+        width: theme.spacing(7) + 1,
       },
     },
     toolbar: {
@@ -99,21 +101,22 @@ export function AppDrawer(props: {
       <List>
         <ListItemLink to="/home">
           <ListItemIcon>
-            <InboxIcon />
+            <HomeIcon />
           </ListItemIcon>
           <ListItemText primary="Home" />
         </ListItemLink>
         <ListItemLink to="/about">
           <ListItemIcon>
-            <InboxIcon />
+            <InfoIcon />
           </ListItemIcon>
           <ListItemText primary="About" />
         </ListItemLink>
-        <ListItemLink to="/login">
+        <Divider />
+        <ListItemLink to="/">
           <ListItemIcon>
-            <InboxIcon />
+            <PowerSettingsNewIcon />
           </ListItemIcon>
-          <ListItemText primary="Login" />
+          <ListItemText primary="Logout" />
         </ListItemLink>
       </List>
     </Drawer>

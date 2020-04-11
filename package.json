@@ -3,8 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "description": "A simple react authentication with typescript and material UI",
-  "keywords": ["react", "typescript", "material"],
+  "keywords": [
+    "react",
+    "typescript",
+    "material",
+    "react-hook-form"
+  ],
   "dependencies": {
+    "@loadable/component": "^5.12.0",
     "@material-ui/core": "^4.9.9",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.48",
@@ -40,6 +46,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@types/jest": "^24.0.0",
+    "@types/loadable__component": "^5.10.0",
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",

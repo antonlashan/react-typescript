@@ -1,11 +1,16 @@
 import React from "react";
 import clsx from "clsx";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  Typography,
+  IconButton,
+} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
+import { Link } from "react-router-dom";
+import { currentUser } from "../services/authentication.service";
 
 const drawerWidth = 240;
 
@@ -32,12 +37,16 @@ const useStyles = makeStyles((theme: Theme) =>
     hide: {
       display: "none",
     },
+    title: {
+      flexGrow: 1,
+    },
   })
 );
 
 export function Header(props: { open: boolean; onOpen: (o: boolean) => void }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const currUser = currentUser();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -67,9 +76,12 @@ export function Header(props: { open: boolean; onOpen: (o: boolean) => void }) {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap>
-          Mini variant drawer
+        <Typography variant="h6" className={classes.title} noWrap>
+          React with typescript
         </Typography>
+        <Button color="inherit" to="/" component={Link}>
+          Logout ({currUser?.name.first})
+        </Button>
       </Toolbar>
     </AppBar>
   );
