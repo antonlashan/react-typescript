@@ -3,7 +3,7 @@ import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { green } from "@material-ui/core/colors";
 import { Button, ButtonProps, CircularProgress } from "@material-ui/core";
 
-type ButtonProcessProps = {
+type ButtonProgressProps = {
   animate: boolean;
 } & ButtonProps;
 
@@ -23,12 +23,12 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const ButtonProcess = ({
+const ButtonProgress = ({
   animate,
   children,
   disabled,
   ...rest
-}: ButtonProcessProps) => {
+}: ButtonProgressProps) => {
   const classes = useStyles();
   const [loading, setLoading] = React.useState<boolean>(false);
 
@@ -58,4 +58,4 @@ const ButtonProcess = ({
   );
 };
 
-export default ButtonProcess;
+export default ButtonProgress;

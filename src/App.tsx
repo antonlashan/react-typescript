@@ -1,45 +1,51 @@
 import React, { Suspense } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import AuthenticatedLayout from "./layouts/AuthenticatedLayout";
 import LoginLayout from "./layouts/LoginLayout";
+import { PrivateRoute } from "./components/AuthRoute";
+import { AuthContext, currentUser } from "./services/authentication.service";
 
-import Login from "./modules/login/Login";
-import Home from "./modules/home/Home";
-import About from "./modules/about/About";
+// import Login from "./modules/login/Login";
+// import Home from "./modules/home/Home";
+// import About from "./modules/about/About";
 
-// const Home = React.lazy(() => import("./modules/home/Home"));
-// const About = React.lazy(() => import("./modules/about/About"));
-// const Login = React.lazy(() => import("./modules/login/Login"));
+const Home = React.lazy(() => import("./modules/home/Home"));
+const About = React.lazy(() => import("./modules/about/About"));
+const Login = React.lazy(() => import("./modules/login/Login"));
 
 function App() {
   return (
     <Router>
-      <Switch>
-        <Suspense fallback={<div>Loading...</div>}>
-          <Route exact path={["/login"]}>
-            <LoginLayout>
-              <Switch>
-                <Route exact path="/login">
-                  <Login />
-                </Route>
-              </Switch>
-            </LoginLayout>
-          </Route>
-          <Route exact path={["/home", "/about"]}>
-            <AuthenticatedLayout>
-              <Switch>
-                <Route exact path="/home">
-                  <Home />
-                </Route>
-
-                <Route exact path="/about">
-                  <About />
-                </Route>
-              </Switch>
-            </AuthenticatedLayout>
-          </Route>
-        </Suspense>
-      </Switch>
+      <AuthContext.Provider value={currentUser()}>
+        <Switch>
+          <Suspense fallback={<div>Loading...</div>}>
+            {/* <Redirect exact path="/" to="login" /> */}
+            <Route path={["/login"]}>
+              <LoginLayout>
+                <Switch>
+                  <Route path="/login" component={Login} />
+                </Switch>
+              </LoginLayout>
+            </Route>
+            <Route path={["/home", "/about"]}>
+              <AuthenticatedLayout>
+                <Switch>
+                  <PrivateRoute path="/home" component={Home} />
+                  <PrivateRoute path="/about" component={About} />
+                </Switch>
+              </AuthenticatedLayout>
+            </Route>
+            <Route path="*">
+              <Redirect exact to="login" />
+            </Route>
+          </Suspense>
+        </Switch>
+      </AuthContext.Provider>
     </Router>
   );
 }

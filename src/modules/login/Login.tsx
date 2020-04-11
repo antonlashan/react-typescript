@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import {
   Link,
   Avatar,
@@ -12,26 +13,14 @@ import {
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Alert from "@material-ui/lab/Alert";
 import { useForm } from "react-hook-form";
-import axios from "axios";
-import ButtonProcess from "../../components/ButtonProcess";
+
+import ButtonProgress from "../../components/ButtonProgress";
+import { login, logout } from "../../services/authentication.service";
 
 type FormData = {
   email: string;
   password: string;
   remember: boolean;
-};
-
-type UserData = {
-  id: string;
-  picture: string;
-  age: number;
-  name: {
-    first: string;
-    last: string;
-  };
-  email: string;
-  phone: string;
-  address: string;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -53,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Login = () => {
+  const history = useHistory();
   const { register, handleSubmit, errors, formState } = useForm<FormData>({
     mode: "onChange",
   });
@@ -60,17 +50,24 @@ const Login = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [showAlert, setShowAlert] = React.useState<boolean>(false);
 
-  const onSubmit = handleSubmit((formData) => {
+  React.useEffect(() => {
+    logout();
+  }, []);
+
+  const onSubmit = handleSubmit(({ email, password }) => {
     setLoading(true);
     setShowAlert(false);
-    axios.get<UserData[]>(`/mocks/login.json`).then(({ data }) => {
-      const user = data.find((user) => user.email === formData.email);
-      console.log(user);
-      if (!user) {
-        setShowAlert(true);
-      }
-      setLoading(false);
-    });
+
+    // simulate like actual time for respond
+    setTimeout(() => {
+      login(email, password).then((user) => {
+        if (user === null) {
+          setShowAlert(true);
+        }
+        setLoading(false);
+        history.push("/home");
+      });
+    }, 1000);
   });
 
   const classes = useStyles();
@@ -124,7 +121,7 @@ const Login = () => {
             </Alert>
           </div>
         )}
-        <ButtonProcess
+        <ButtonProgress
           animate={loading}
           type="submit"
           fullWidth
@@ -134,7 +131,7 @@ const Login = () => {
           disabled={!formState.isValid}
         >
           Sign In
-        </ButtonProcess>
+        </ButtonProgress>
         <Grid container>
           <Grid item xs>
             <Link href="#" variant="body2">
