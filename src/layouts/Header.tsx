@@ -12,7 +12,6 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from "react-router-dom";
 import { currentUser } from "../services/authentication.service";
 import { subscriber, drawerService } from "../services/drawer.service";
-// import { drawerReducer, initialState } from "../reducers/drawer.reducer";
 
 const drawerWidth = 240;
 
@@ -62,13 +61,8 @@ export function Header() {
   const currUser = currentUser();
 
   const handleDrawerOpen = () => {
-    // dispatch({type: 'open'})
     drawerService.toggleDrawer(!open);
   };
-
-  // React.useEffect(() => {
-  //   setOpen(props.open);
-  // }, [props.open]);
 
   return (
     <AppBar
