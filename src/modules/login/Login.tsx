@@ -54,19 +54,19 @@ const Login = () => {
     logout();
   }, []);
 
-  const onSubmit = handleSubmit(({ email, password }) => {
+  const onSubmit = handleSubmit(async ({ email, password }) => {
     setLoading(true);
     setShowAlert(false);
 
     // simulate like actual time for respond
-    setTimeout(() => {
-      login(email, password).then((user) => {
-        if (user === null) {
-          setShowAlert(true);
-        }
-        setLoading(false);
-        history.push("/home");
-      });
+    setTimeout(async () => {
+      const user = await login(email, password);
+      setLoading(false);
+      if (user === null) {
+        setShowAlert(true);
+      } else {
+        return history.push("/home");
+      }
     }, 1000);
   });
 

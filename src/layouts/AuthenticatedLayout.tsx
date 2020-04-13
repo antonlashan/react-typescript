@@ -30,18 +30,13 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function AuthenticatedLayout({ children }: { children: ReactNode }) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
-
-  const handleOpen = (o: boolean) => {
-    setOpen(o);
-  };
 
   return (
     <div className={classes.root}>
       <CssBaseline />
 
-      <Header open={open} onOpen={handleOpen} />
-      <AppDrawer open={open} onOpen={handleOpen} />
+      <Header />
+      <AppDrawer />
 
       <main className={classes.content}>
         <div className={classes.toolbar} />

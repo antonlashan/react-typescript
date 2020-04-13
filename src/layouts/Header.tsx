@@ -11,6 +11,8 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from "react-router-dom";
 import { currentUser } from "../services/authentication.service";
+import { subscriber, drawerService } from "../services/drawer.service";
+// import { drawerReducer, initialState } from "../reducers/drawer.reducer";
 
 const drawerWidth = 240;
 
@@ -43,19 +45,30 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export function Header(props: { open: boolean; onOpen: (o: boolean) => void }) {
+export function Header() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
+
+  React.useEffect(() => {
+    subscriber.subscribe((t) => {
+      setOpen(t);
+    });
+
+    return function cleanup() {
+      subscriber.unsubscribe();
+    };
+  }, []);
+
   const currUser = currentUser();
 
   const handleDrawerOpen = () => {
-    setOpen(true);
-    props.onOpen(true);
+    // dispatch({type: 'open'})
+    drawerService.toggleDrawer(!open);
   };
 
-  React.useEffect(() => {
-    setOpen(props.open);
-  }, [props.open]);
+  // React.useEffect(() => {
+  //   setOpen(props.open);
+  // }, [props.open]);
 
   return (
     <AppBar
@@ -77,7 +90,7 @@ export function Header(props: { open: boolean; onOpen: (o: boolean) => void }) {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" className={classes.title} noWrap>
-          React with typescript
+          React with typescript {open === true ? "true" : "false"}
         </Typography>
         <Button color="inherit" to="/" component={Link}>
           Logout ({currUser?.name.first})
