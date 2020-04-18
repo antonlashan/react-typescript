@@ -1,5 +1,5 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Link,
   Avatar,
@@ -9,13 +9,14 @@ import {
   Checkbox,
   Grid,
   makeStyles,
-} from "@material-ui/core";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Alert from "@material-ui/lab/Alert";
-import { useForm } from "react-hook-form";
+} from '@material-ui/core';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Alert from '@material-ui/lab/Alert';
+import { useForm } from 'react-hook-form';
 
-import ButtonProgress from "../../components/ButtonProgress";
-import { login, logout } from "../../services/authentication.service";
+import ButtonProgress from '../../components/ButtonProgress';
+import { logout } from '../../services/authentication.service';
+import { login } from './login.service';
 
 type FormData = {
   email: string;
@@ -29,14 +30,14 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
   alert: {
-    width: "100%",
+    width: '100%',
     marginTop: theme.spacing(2),
   },
 }));
@@ -44,13 +45,13 @@ const useStyles = makeStyles((theme) => ({
 const Login = () => {
   const history = useHistory();
   const { register, handleSubmit, errors, formState } = useForm<FormData>({
-    mode: "onChange",
+    mode: 'onChange',
   });
 
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const [showAlert, setShowAlert] = React.useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     logout();
   }, []);
 
@@ -65,7 +66,7 @@ const Login = () => {
       if (user === null) {
         setShowAlert(true);
       } else {
-        return history.push("/home");
+        return history.push('/home');
       }
     }, 1000);
   });
@@ -90,10 +91,10 @@ const Login = () => {
           name="email"
           autoFocus
           inputRef={register({
-            required: "Email is required",
+            required: 'Email is required',
             pattern: {
               value: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-              message: "Invalid email.",
+              message: 'Invalid email.',
             },
           })}
         />
@@ -106,7 +107,7 @@ const Login = () => {
           name="password"
           label="Password"
           type="password"
-          inputRef={register({ required: "Password is required." })}
+          inputRef={register({ required: 'Password is required.' })}
         />
         <FormControlLabel
           control={<Checkbox color="primary" />}

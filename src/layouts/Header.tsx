@@ -75,7 +75,7 @@ export function Header() {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" className={classes.title} noWrap>
-          React with typescript {open === true ? 'true' : 'false'}
+          React with typescript
         </Typography>
         <Button color="inherit" to="/" component={Link}>
           Logout ({currUser?.name.first})

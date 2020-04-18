@@ -1,7 +1,6 @@
-import axios from 'axios';
 import React from 'react';
 
-type UserData = {
+export type UserData = {
   id: string;
   picture: string;
   age: number;
@@ -14,7 +13,7 @@ type UserData = {
   address: string;
 };
 
-type UserRes = UserData | null;
+export type UserRes = UserData | null;
 
 export const AuthContext = React.createContext<UserRes>(null);
 
@@ -26,20 +25,15 @@ export const currentUser = (): UserRes => {
   return null;
 };
 
-export const login = async (
-  email: string,
-  passowrd: string
-): Promise<UserRes> => {
-  const { data } = await axios.get<UserData[]>(`/mocks/login.json`);
-  const user = data.find((user) => user.email === email);
-  if (user) {
-    localStorage.setItem('currentUser', JSON.stringify(user));
-    return user;
-  }
-  return null;
+export const setUser = (user: UserRes) => {
+  localStorage.setItem('currentUser', JSON.stringify(user));
+};
+
+export const removeUser = () => {
+  localStorage.removeItem('currentUser');
 };
 
 export const logout = () => {
   // remove user from local storage to log user out
-  localStorage.removeItem('currentUser');
+  removeUser();
 };
