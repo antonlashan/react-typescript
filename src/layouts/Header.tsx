@@ -11,7 +11,7 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
 import { currentUser } from '../services/authentication.service';
-import { subscriber, drawerService } from '../services/drawer.service';
+import { drawerService } from '../services/drawer.service';
 
 const drawerWidth = 240;
 
@@ -46,22 +46,13 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export function Header() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
-
-  React.useEffect(() => {
-    subscriber.subscribe((t) => {
-      setOpen(t);
-    });
-
-    return function cleanup() {
-      subscriber.unsubscribe();
-    };
-  }, []);
+  const { useDrawerStatus, toggleDrawer, defaultValue } = drawerService;
+  const open = useDrawerStatus(defaultValue);
 
   const currUser = currentUser();
 
   const handleDrawerOpen = () => {
-    drawerService.toggleDrawer(!open);
+    toggleDrawer(true);
   };
 
   return (

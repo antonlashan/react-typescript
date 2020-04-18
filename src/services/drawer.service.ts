@@ -1,9 +1,30 @@
 import { Subject } from 'rxjs';
+import { useState, useEffect } from 'react';
 
-export const subscriber = new Subject<boolean>();
+const subscriberSource = new Subject<boolean>();
+const subscriber$ = subscriberSource.asObservable();
+
+const useDrawerStatus = (toggle: boolean) => {
+  const [open, setOpen] = useState(toggle);
+
+  useEffect(() => {
+    const subs = subscriber$.subscribe((t) => {
+      setOpen(t);
+      drawerService.defaultValue = t;
+    });
+
+    return () => {
+      if (subs) subs.unsubscribe();
+    };
+  }, [toggle]);
+
+  return open;
+};
 
 export const drawerService = {
+  defaultValue: true,
   toggleDrawer: (t: boolean) => {
-    subscriber.next(t);
+    subscriberSource.next(t);
   },
+  useDrawerStatus,
 };

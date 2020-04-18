@@ -16,7 +16,7 @@ import {
 } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { Link, LinkProps } from 'react-router-dom';
-import { subscriber, drawerService } from '../services/drawer.service';
+import { drawerService } from '../services/drawer.service';
 
 const drawerWidth = 240;
 
@@ -64,21 +64,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export function AppDrawer() {
   const classes = useStyles();
-
-  const [open, setOpen] = React.useState(true);
-
-  React.useEffect(() => {
-    subscriber.subscribe((t) => {
-      setOpen(t);
-    });
-
-    return function cleanup() {
-      subscriber.unsubscribe();
-    };
-  }, []);
+  const { useDrawerStatus, toggleDrawer, defaultValue } = drawerService;
+  const open = useDrawerStatus(defaultValue);
 
   const handleDrawerClose = () => {
-    drawerService.toggleDrawer(!open);
+    toggleDrawer(false);
   };
 
   return (
