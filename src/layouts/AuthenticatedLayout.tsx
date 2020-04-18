@@ -1,22 +1,22 @@
-import React, { ReactNode } from "react";
-import { Header } from "../layouts/Header";
+import React, { ReactNode } from 'react';
+import { Header } from '../layouts/Header';
 import {
   CssBaseline,
   makeStyles,
   Theme,
   createStyles,
-} from "@material-ui/core";
-import { AppDrawer } from "../layouts/Drawer";
+} from '@material-ui/core';
+import { AppDrawer } from '../layouts/Drawer';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: "flex",
+      display: 'flex',
     },
     toolbar: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "flex-end",
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
       padding: theme.spacing(0, 1),
       // necessary for content to be below app bar
       ...theme.mixins.toolbar,

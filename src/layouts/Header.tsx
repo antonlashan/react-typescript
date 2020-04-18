@@ -1,17 +1,17 @@
-import React from "react";
-import clsx from "clsx";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import React from 'react';
+import clsx from 'clsx';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import {
   AppBar,
   Toolbar,
   Button,
   Typography,
   IconButton,
-} from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
-import { Link } from "react-router-dom";
-import { currentUser } from "../services/authentication.service";
-import { subscriber, drawerService } from "../services/drawer.service";
+} from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
+import { Link } from 'react-router-dom';
+import { currentUser } from '../services/authentication.service';
+import { subscriber, drawerService } from '../services/drawer.service';
 
 const drawerWidth = 240;
 
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
-      transition: theme.transitions.create(["width", "margin"], {
+      transition: theme.transitions.create(['width', 'margin'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
     appBarShift: {
       marginLeft: drawerWidth,
       width: `calc(100% - ${drawerWidth}px)`,
-      transition: theme.transitions.create(["width", "margin"], {
+      transition: theme.transitions.create(['width', 'margin'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
       }),
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: 36,
     },
     hide: {
-      display: "none",
+      display: 'none',
     },
     title: {
       flexGrow: 1,
@@ -84,7 +84,7 @@ export function Header() {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" className={classes.title} noWrap>
-          React with typescript {open === true ? "true" : "false"}
+          React with typescript {open === true ? 'true' : 'false'}
         </Typography>
         <Button color="inherit" to="/" component={Link}>
           Logout ({currUser?.name.first})

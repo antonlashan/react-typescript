@@ -1,4 +1,4 @@
-import { Subject } from "rxjs";
+import { Subject } from 'rxjs';
 
 export const subscriber = new Subject<boolean>();
 

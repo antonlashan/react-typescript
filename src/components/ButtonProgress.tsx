@@ -1,7 +1,7 @@
-import React from "react";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
-import { green } from "@material-ui/core/colors";
-import { Button, ButtonProps, CircularProgress } from "@material-ui/core";
+import React from 'react';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
+import { green } from '@material-ui/core/colors';
+import { Button, ButtonProps, CircularProgress } from '@material-ui/core';
 
 type ButtonProgressProps = {
   animate: boolean;
@@ -10,13 +10,13 @@ type ButtonProgressProps = {
 const useStyles = makeStyles(() =>
   createStyles({
     wrapper: {
-      position: "relative",
+      position: 'relative',
     },
     buttonProgress: {
       color: green[500],
-      position: "absolute",
-      top: "50%",
-      left: "50%",
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
       marginTop: -8,
       marginLeft: -12,
     },

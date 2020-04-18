@@ -1,13 +1,13 @@
-import React from "react";
-import { Route, Redirect, RouteProps } from "react-router-dom";
+import React from 'react';
+import { Route, Redirect, RouteProps } from 'react-router-dom';
 
-import { currentUser, AuthContext } from "../services/authentication.service";
+import { currentUser, AuthContext } from '../services/authentication.service';
 
 type IProps = {
   component: React.ComponentType<any>;
 } & RouteProps;
 
-export const PrivateRoute = ({ component: Component, ...rest }: IProps) => (
+export const AuthRoute = ({ component: Component, ...rest }: IProps) => (
   <AuthContext.Consumer>
     {() => {
       return (
@@ -19,7 +19,7 @@ export const PrivateRoute = ({ component: Component, ...rest }: IProps) => (
               // not logged in so redirect to login page with the return url
               return (
                 <Redirect
-                  to={{ pathname: "/login", state: { from: props.location } }}
+                  to={{ pathname: '/login', state: { from: props.location } }}
                 />
               );
             }
